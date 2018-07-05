@@ -1,0 +1,54 @@
+
+   <!-- user : {type: Schema.Types.ObjectId, ref: 'User'},
+    userid : {type:String, required:true},
+    betamount: {type: Object, required:true},
+    createdat : {type:String, required:true},
+    bettitle : {type:String, required:true},
+    shareout : {type:String, required:true},
+    date : {type:Number, required:true} -->
+
+ <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>Share-Out (Admin Page)</h1>
+        <hr>
+        <h2>Betting List</h2>
+        {{# each bettests }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {{this.bettitle}}
+                        <li class="list-group-item">
+                        <span class="badge" style="background-color:red;">{{ this.betamount }} Point</span>
+                        {{ this.createdat }} | Kick Off : {{ this.date }} 
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="panel-footer">Bet User : <strong style="color:red;">{{ this.userid }} </strong></div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+window.onload = function(){
+
+
+   var socket = io();
+
+
+    socket.on('bet test', function(msg){
+
+   
+    console.log(msg.timenow[0]);
+
+    });
+
+
+
+
+}
+
+</script>

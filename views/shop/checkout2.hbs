@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <h1>Checkout</h1>
+        <div id="charge-error" class="alert alert-danger {{#if noError}}hidden{{/if}}">
+            {{errMsg}}
+        </div>
+        <form action="/checkout2" method="post">
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="usercomment">Comment Us</label>
+                        <input type="text" id="usercomment" class="form-control" required name="usercomment">
+                    </div>
+                </div>
+
+                </div>
+                <button type="submit" class="btn btn-success">Buy now</button>
+        </form>
+</div>
+</div>
+
+
+

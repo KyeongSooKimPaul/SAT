@@ -1,0 +1,169 @@
+
+
+
+     <div class="row" style="text-align:center;">
+        <div class="col-xs-12 col-sm-12">
+            <table class="table borderless">
+                <caption style="color:black;">{{today}} </caption>
+                <thead style="background-color:darkblue">
+                    <tr>
+                        <th class="col-xs-4 col-sm-4" style="color:white;">Match (BST) </th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">date</th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">bet  </th>
+                    </tr>
+                </thead>
+{{# each bets}}
+
+                <tbody>
+                    <tr>
+                        <td >{{ this.title }}</td>
+    <td>    
+    <h4><strong> {{this.date}} </strong></h4>
+    </td> 
+<td >
+<button class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal{{this._id}}">{{this.betpic}}</button>
+
+
+    <div id="myModal{{this._id}}" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+              aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{ this.date }}</h4>
+          </div>
+          <div class="modal-body">
+          <h1>{{ this.title }}</h1>
+
+        <form action="/add-to-bet-test/{{this._id}}" method="post">
+            <div class="row">
+
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="form-group">
+                        <label for="betamount" id="result" >My Point : <strong style="color:red";> {{this.point}} P </strong></label>
+                        <input type="text" id="betamount" class="form-control" required name="betamount">
+                    </div>
+                </div>
+
+                </div>
+                
+                <button type="submit" class="btn btn-success">Add to Betting List</button>
+        </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+</td>                           
+                    </tr>
+                </tbody>
+                   {{/each}}
+            </table>
+        </div>
+    </div>
+
+
+
+
+<!-- this is real -->
+
+            <table class="table borderless" id="tableinfo1">
+                <caption style="color:black;">Match Info  </caption>
+                <thead style="background-color:darkblue">
+                    <tr>
+                        <th class="col-xs-4 col-sm-4" style="color:white;">Match (BST) </th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">date</th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">bet  </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+
+{{# each bets}}                  
+    <div id="myModal{{this._id}}" class="modal fade" style="text-align:center;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+              aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{ this.date }}</h4>
+          </div>
+          <div class="modal-body">
+          <h1>{{ this.title }}</h1>
+
+        <form action="/add-to-bet/{{this._id}}" method="post">
+            <div class="row">
+
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="form-group">
+                        <label for="betamount" id="result" >My Point : <strong style="color:red";> {{this.point}} P </strong></label>
+                        <input type="text" id="betamount" class="form-control" required name="betamount">
+                    </div>
+                </div>
+
+                </div>
+                
+                <button type="submit" class="btn btn-success">Add to Betting List</button>
+        </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+{{/each}}
+
+
+
+
+
+<script type="text/javascript">
+    var socket = io();
+
+/*
+    socket.on('bet message', function(msg){
+        var li = "<li><strong>" + msg.timenow + " : </strong>" + msg.betresult + "</li>";
+        $('.chat-box').append(li);
+
+    });
+*/
+
+    socket.on('bet message', function(msg){
+
+    $('#tableinfo1 > tbody:last > tr').remove();
+    console.log('Delete start ->' + msg.timenow);
+
+     for (var i = 0; i < msg.betresult.length; i++){
+        
+    $('#tableinfo1 > tbody:last')
+    .append(
+        '<tr><td>'  + msg.betresult[i].title +  '</td> <td>'
+                    + + msg.betresult[i].date  +  '</td> <td>'
+                    + '<button class="btn btn-xs btn-success" data-toggle="modal" '
++ 'data-target="#myModal'  + msg.betresult[i]._id + '">' + msg.betresult[i].betpic +'</button>' 
++ '</td> <tr>'
+             );
+      }
+    });
+        var data = {
+            timenow : "I love You",
+            betresult : "I love sex"
+        };
+
+    socket.emit('new data', data);
+</script>
+
+

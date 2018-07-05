@@ -1,0 +1,230 @@
+
+
+     <div class="row" style="text-align:center;">
+        <div class="col-xs-12 col-sm-12">
+{{# each betsresult}}
+            <table class="table table-bordered">
+                <caption style="color:black;">{{this.title}} </caption>
+                <thead style="background-color:darkblue" style="text-align:center;">
+                    <tr>
+                        <th class="col-xs-3 col-sm-3" style="color:white;">Win</th>
+                        <th class="col-xs-1 col-sm-1"style="color:white;">B.P</th>
+                        <th class="col-xs-3 col-sm-3"style="color:white;">Lose  </th>
+                        <th class="col-xs-1 col-sm-1" style="color:white;">B.P</th>
+                        <th class="col-xs-3 col-sm-3"style="color:white;">Draw</th>
+                        <th class="col-xs-1 col-sm-1"style="color:white;">B.P</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <tr>
+    <td >
+        with317@gmail.com
+    </td>
+    <td>    
+        353P
+    </td> 
+    <td >
+        with317@gmail.com
+    </td>
+    <td>    
+        23253P
+    </td> 
+    <td >
+        with317@gmail.com
+    </td>
+    <td>    
+        25P
+    </td>                          
+                    </tr>
+                </tbody>
+            </table>
+                 {{/each}}
+        </div>
+    </div>
+
+
+
+
+
+<!-- this is for reference -->
+
+
+     <div class="row" style="text-align:center;">
+        <div class="col-xs-12 col-sm-12">
+            <table class="table borderless">
+                <caption style="color:black;">{{today}} </caption>
+                <thead style="background-color:darkblue">
+                    <tr>
+                        <th class="col-xs-4 col-sm-4" style="color:white;">Match (BST) </th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">date</th>
+                        <th class="col-xs-4 col-sm-4"style="color:white;">bet  </th>
+                    </tr>
+                </thead>
+{{# each bets}}
+
+                <tbody>
+                    <tr>
+                        <td >{{ this.title }}</td>
+    <td>    
+    <h4><strong> {{this.date}} </strong></h4>
+    </td> 
+<td >
+<button class="btn btn-xs btn-success" data-toggle="modal" data-target="#myModal{{this._id}}">{{this.betpic}}</button>
+
+
+    <div id="myModal{{this._id}}" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+              aria-hidden="true">&times;</button>
+            <h4 class="modal-title">{{ this.date }}</h4>
+          </div>
+          <div class="modal-body">
+          <h1>{{ this.title }}</h1>
+
+        <form action="/add-to-bet/{{this._id}}" method="post">
+            <div class="row">
+
+                <div class="col-xs-6 col-xs-offset-3">
+                    <div class="form-group">
+                        <label for="betamount" id="result" >My Point : <strong style="color:red";> {{this.point}} P </strong></label>
+                        <input type="text" id="betamount" class="form-control" required name="betamount">
+                    </div>
+                </div>
+
+                </div>
+                
+                <button type="submit" class="btn btn-success">Add to Betting List</button>
+        </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+</td>                           
+                    </tr>
+                </tbody>
+                   {{/each}}
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+<div class="row" style="margin-top:50px;">
+    <div class="col-sm-12 col-md-12" id="thisis">
+
+
+
+
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    var socket = io();
+
+
+    socket.on('betnow', function(msg){
+        var keys =  Object.keys(msg.betresult[0].betcart.items);
+        console.log(keys);
+        for ( var i in keys) {
+	    console.log("key="+keys[i]+ ",  data="+ msg.betresult[0].betcart.items[keys[i]]);
+        
+        var keys1 = Object.keys( msg.betresult[0].betcart.items[keys[i]]);
+            for (var j in keys1){
+                console.log("key1="+keys1[j]+ ",  data1="+ msg.betresult[0].betcart.items[keys[i]][keys1[j]]);
+                    var keys2 = Object.keys(msg.betresult[0].betcart.items[keys[i]][keys1[j]]);
+                    for(var k in keys2){
+                    console.log("key2="+keys2[k]+ ",  data2="+ msg.betresult[0].betcart.items[keys[i]][keys1[j]][keys2[k]]);
+                    }
+                        
+    }   
+}
+
+        for (i = 0; i < msg.betresult.length; i++){
+        var li = "<li><strong>" + msg.betresult[i].createdat + " : </strong>" + msg.betresult[i].userid + "</li>";
+
+        $('#thisis').append(li);
+       //각 베팅 오더 기록 시, 총 베팅한 횟수 
+       // msg.betresult[i].betcart.totalBetQty
+
+
+            //for (j=0; j < msg.betresult[i].betcart.items[j].length; j++){
+            //    
+            //}
+}
+console.log(msg.betresult);
+    });
+
+/*socket.on('betnow', function(msg){
+
+        for (i = 0; i < msg.betresult.length; i++){
+
+            for(j=0; j < msg.betresult[i].items.length)
+
+
+}
+console.log(msg.betresult);
+    });
+*/
+
+/*
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h1>Betting History</h1>
+        <hr>
+        <h2>My Bets</h2>
+        {{# each betorders }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {{# each this.items }}
+                        <li class="list-group-item">
+                        <span class="badge" style="background-color:red;">{{ this.betamount }} Point</span>
+                        {{ this.item.title }} | Kick Off : {{ this.item.date }} 
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="panel-footer">Total Bet Point : <strong style="color:red;">{{ this.betcart.totalBetAmount }} P</strong></div>
+            </div>
+        {{/each}}
+    </div>
+</div>
+*/
+
+
+
+
+        var data = {
+            timenow : "I love You",
+            betresult : "I love sex"
+        };
+
+    socket.emit('new data', data);
+</script>
+
+
+
+
+
+
+
+
+
+

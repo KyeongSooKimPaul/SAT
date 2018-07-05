@@ -1,0 +1,86 @@
+.thumbnail img {
+  max-height: 150px;
+}
+
+.thumbnail .description {
+  color: #7f7f7f;;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.worldcupPic {
+  height: 720px;
+  width: 1028px;
+}
+
+.borderless td, .borderless th {
+  border: none;
+}
+
+@keyframes slider {
+  0%{
+    left: 0;
+  }
+  20%{
+    left: 0;
+  }
+  25%{
+    left: -100%;
+  }
+  45%{
+    left: -100%;
+  }
+  50%{
+    left: -200%;
+  }
+  70%{
+    left: -200%;
+  }
+  75%{
+    left: -300%;
+  }
+  95%{
+    left: -300%; 
+  }
+  100%{
+    left: -400%; 
+  }
+}
+
+#slider{
+  overflow: hidden;
+}
+
+#slider figure img{
+  width: 20%;
+  float: left;
+}
+
+#slider figure {
+  position : relative;
+  width: 500%;
+  margin : 0;
+  animation: 20s slider infinite;
+}
+
+.chat {
+  width: 300px;
+  height: 500px;
+  border: solid 1px #ccc;
+  padding : 10px;
+  display: block;
+}
+
+.chat-box {
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+/* ------------------------practice------------*/
+
+
